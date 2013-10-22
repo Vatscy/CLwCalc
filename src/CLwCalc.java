@@ -42,6 +42,16 @@ public class CLwCalc {
 		return newFormulaBuilder.toString();
 	}
 
+	/** SMNR [>1 MR(NR)
+	 * 
+	 * @param formula
+	 *            a formula
+	 * @return if the formula is SMNR, return MR(NR), else return the formula. */
+	String calcS(String formula) {
+		// TODO SMNR [>1 MR(NR)
+		return null;
+	}
+
 	/** 式をブロックに分割する。
 	 * 括弧で囲まれた部分は1ブロック。
 	 * それ以外は1文字1ブロック。
