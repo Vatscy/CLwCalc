@@ -155,13 +155,12 @@ public class CLwCalc {
 		int nextBeginIndex = 1;
 		if (formula.startsWith("(")) {
 			// "("から始まる場合は対応する")"を探し、そこまでが1ブロック
+			StringBuilder builder = new StringBuilder(formula);
 			int count = 1;
-			String str;
-			for (int i = 1; i < formula.length(); i++) {
-				str = formula.substring(i);
-				if (str.startsWith("(")) {
+			for (int i = 1; i < builder.length(); i++) {
+				if (builder.charAt(i) == '(') {
 					count++;
-				} else if (str.startsWith(")")) {
+				} else if (builder.charAt(i) == ')') {
 					count--;
 					if (count <= 0) {
 						separated.add(formula.substring(0, i + 1));
@@ -197,12 +196,24 @@ public class CLwCalc {
 	 *            式
 	 * @return 両サイドの括弧が取り除かれた式 */
 	String removeParentheses(String formula) {
-		if (formula == null) {
-			return null;
+		if (formula == null || formula.equals("")) {
+			return formula;
 		}
-		while (formula.startsWith("(") && formula.endsWith(")")) {
-			formula = formula.substring(1, formula.length() - 1);
+		StringBuilder builder = new StringBuilder(formula);
+		while (builder.charAt(0) == '(') {
+			int count = 1;
+			for (int i = 1; i < builder.length(); i++) {
+				if (builder.charAt(i) == '(') {
+					count++;
+				} else if (builder.charAt(i) == ')') {
+					count--;
+					if (count <= 0) {
+						builder.deleteCharAt(i).deleteCharAt(0);
+						break;
+					}
+				}
+			}
 		}
-		return formula;
+		return builder.toString();
 	}
 }
