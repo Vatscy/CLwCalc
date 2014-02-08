@@ -12,9 +12,11 @@ public class CLwCalc {
 		String formula;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
+			System.out.println("Start CLw Calculator.");
+			System.out.println("(Write 'exit' to finish.)");
 			System.out.print("Write a formula of CLw. : ");
 			while (!(formula = br.readLine()).equals("exit")) {
-				System.out.print(formula + " [> ");
+				System.out.print(formula + " |> ");
 				System.out.println(clw.normalize(formula));
 				System.out.print("Write a formula of CLw. : ");
 			}
@@ -68,7 +70,7 @@ public class CLwCalc {
 				.replaceAll("I", "(SKK)");
 	}
 
-	/** KMN [>1 M
+	/** KMN |>1 M
 	 * 
 	 * @param formula
 	 *            a formula
@@ -92,7 +94,7 @@ public class CLwCalc {
 		return newFormulaBuilder.toString();
 	}
 
-	/** SMNR [>1 MR(NR)
+	/** SMNR |>1 MR(NR)
 	 * 
 	 * @param formula
 	 *            a formula
