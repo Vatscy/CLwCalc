@@ -3,22 +3,16 @@ package logic;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class CLwCalculateLogicTest {
 
-	private CLwCalculateLogic	logic;
+	private CLwCalculateLogic	logic	= CLwCalculateLogic.getInstance();
 
 	@Rule
 	public ExpectedException	thrown	= ExpectedException.none();
-
-	@Before
-	public void setUp() {
-		logic = CLwCalculateLogic.getInstance();
-	}
 
 	@Test
 	public void testNormalize_異常系_nullを渡す() {
@@ -210,5 +204,28 @@ public class CLwCalculateLogicTest {
 		assertThat(logic.unwrapTerm("(xy)"), is("xy"));
 		assertThat(logic.unwrapTerm("(xyz)"), is("xyz"));
 		assertThat(logic.unwrapTerm("(x(yz))"), is("x(yz)"));
+	}
+
+	@Test
+	public void testRepresentTermWithKAndS_異常系_nullを渡す() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("文字列を指定してください。");
+		logic.representTermWithKAndS(null);
+	}
+
+	@Test
+	public void testRepresentTermWithKAndS_正常系_WCBIを含まない項を渡す() {
+		assertThat(logic.representTermWithKAndS("xy"), is("xy"));
+		assertThat(logic.representTermWithKAndS("xyz"), is("xyz"));
+		assertThat(logic.representTermWithKAndS("KxySz"), is("KxySz"));
+	}
+
+	@Test
+	public void testRepresentTermWithKAndS_正常系_WCBIを含む項を渡す() {
+		assertThat(logic.representTermWithKAndS("Wxyz"), is("(SS(K(SKK)))xyz"));
+		assertThat(logic.representTermWithKAndS("xCyz"),
+				is("x(S((S(KS)K)(S(KS)K)S)(KK))yz"));
+		assertThat(logic.representTermWithKAndS("xyBz"), is("xy(S(KS)K)z"));
+		assertThat(logic.representTermWithKAndS("xyzI"), is("xyz(SKK)"));
 	}
 }

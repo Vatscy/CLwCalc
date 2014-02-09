@@ -64,6 +64,9 @@ public class CLwCalculateLogic {
 	 *            項
 	 * @return W、C、B、IをS、Kで表現し直した項 */
 	String representTermWithKAndS(String term) {
+		if (term == null) {
+			throw new IllegalArgumentException("文字列を指定してください。");
+		}
 		return term.replaceAll("W", "(SS(KI))").replaceAll("C", "(S(BBS)(KK))")
 				.replaceAll("B", "(S(KS)K)").replaceAll("I", "(SKK)");
 	}
